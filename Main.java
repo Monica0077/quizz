@@ -277,6 +277,3 @@ class Result implements IResult
 }
 
 
-
-
-
