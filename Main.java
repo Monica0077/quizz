@@ -10,12 +10,16 @@ package main;
  */
 import java.util.Scanner;
 import java.util.*;
+import java.io.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException{
 
         /*
         //We are telling the scanner class to read the input from input stream
@@ -53,11 +57,11 @@ public class Main {
     }
 }
 
-class Quiz
+class Quiz extends Thread
 {
     int score;
     int scoree[]=new int[5];
-    void begin()
+    void begin ()throws IOException
     {
         Question[] questions = new Question[5];
 
@@ -85,6 +89,13 @@ class Quiz
             System.out.println("Enter your answer");
             Scanner scan = new Scanner(System.in);
             ans = scan.next().charAt(0);
+            Thread t=new Thread();
+            try{
+            t.sleep(100);
+            }catch(Exception e)
+            {
+                System.out.println("thread is sleeping");
+            }
 
             switch(ans)
             {
@@ -126,6 +137,7 @@ class Quiz
         scoree[0]=countRight;
         
         result.showResult();
+        
     }
 }
 class showscoree extends Quiz
@@ -220,6 +232,23 @@ class Result implements IResult
         System.out.println("Number of wrong answers " + wrongAnswers);
         System.out.println("Percentage " + showPercentage(correctAnswers,totalQuestions));
         System.out.println("Your performance " + showPerformance(showPercentage(correctAnswers,totalQuestions)));
+        System.out.println("Do you want to continue?");
+        System.out.println("1.yes\n2.NO");
+        Scanner s=new Scanner(System.in);
+        char ss=s.next().charAt(0);
+        switch(ss)
+        {
+            case '1':
+            { Quiz q1=new Quiz();
+            try {
+                q1.begin();
+            } catch (IOException ex) {
+                Logger.getLogger(Result.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            }
+            case '2':
+                System.exit(0);
+        }
 
     }
 
@@ -246,5 +275,8 @@ class Result implements IResult
 
     }
 }
+
+
+
 
 
